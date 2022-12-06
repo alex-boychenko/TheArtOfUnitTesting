@@ -22,27 +22,18 @@ public class UserService
         var user = _database.GetUserById(userId);
         var company = _database.GetCompany();
 
-        if (user.Email == newEmail) 
-            return;
+        if (!user.IsEmailConfirmed)
+            throw new PreconditionException("Can't change a confirmed email");
 
-        string emailDomain = newEmail.Split('@')[1];
-
-        bool isEmailCorporate = emailDomain == company.CompanyDomainName;
-        UserType newType = isEmailCorporate ? UserType.Employee : UserType.Customer;
-
-        if (user.Type != newType)
-        {
-            int delta = newType == UserType.Employee ? 1 : -1;
-            int newNumber = company.NumberOfEmployees + delta;
-            company.NumberOfEmployees = newNumber;
-        }
-
-        user.Email = newEmail;
-        user.Type = newType;
+        user.ChangeEmail(newEmail, company);
 
         _database.SaveCompany(company);
         _database.SaveUser(user);
+
+        // В текущей реализации в функциональности уведомления присутствует дефект:
+        // она отправляет сообщения даже в том случае, если адрес электронной почты не изменился
         _messageBus.SendEmailChangedMessage(userId, newEmail);
+
     }
 }
 

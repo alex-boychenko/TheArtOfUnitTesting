@@ -11,26 +11,23 @@ public class UserServiceTest
         //Arrange
         var database = new Mock<IDatabase>();
 
-        var user = new User(1, "alex@yandex.ru", UserType.Customer);
+        var user = new User(1, "user@gmail.com", UserType.Customer);
         database.Setup(x => x.GetUserById(It.IsAny<int>())).Returns(user);
 
-        var company = new Company(10, "bimeister.com");
+        var company = new Company(10, "mycorp.com");
         database.Setup(x => x.GetCompany()).Returns(company);
 
         var messageBus = new Mock<IMessageBus>();
         var sut = new UserService(database.Object, messageBus.Object);
 
-        var newEmail = "alex@bimeister.com";
+        var newEmail = "new@mycorp.com";
 
         //Act
         sut.ChangeEmail(1, newEmail);
 
         //Assert
-        var expectedNumberOfEmployees = 11;
-        var expectedUserType = UserType.Employee;
-
-        Assert.Equal(expectedNumberOfEmployees, company.NumberOfEmployees);
-        Assert.Equal(expectedUserType, user.Type);
+        Assert.Equal(11, company.NumberOfEmployees);
+        Assert.Equal(UserType.Employee, user.Type);
         Assert.Equal(newEmail, user.Email);
         messageBus.Verify(messageBus => messageBus.SendEmailChangedMessage(user.UserId, user.Email), Times.Once());
     }

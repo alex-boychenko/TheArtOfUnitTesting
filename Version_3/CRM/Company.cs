@@ -13,8 +13,6 @@ public class Company
 
     public void ChangeNumberOfEmployees(int delta)
     {
-        Precondition.Requires(NumberOfEmployees + delta >= 0);
-
         NumberOfEmployees += delta;
     }
 

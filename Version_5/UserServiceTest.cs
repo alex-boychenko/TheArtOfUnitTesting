@@ -1,3 +1,4 @@
+using FluentAssertions;
 using Xunit;
 
 namespace TheArtOfUnitTesting;
@@ -9,7 +10,7 @@ public class UserServiceTest
     {
         //Arrange
         var company = new Company("mycorp.com", 1);
-        var sut = new User(1, "user@gmail.com", UserType.Customer);
+        var sut = new User(1, "user@gmail.com", UserType.Customer, true);
 
         var newEmail = "new@mycorp.com";
 
@@ -41,5 +42,24 @@ public class UserServiceTest
 
         //Assert
         Assert.Equal(expectedResult, isEmailCorporate);
+    }
+
+    [Fact]
+    public void Changing_email_from_corporate_to_non_corporate()
+    {
+        //Arrange
+        var company = new Company("mycorp.com", 1);
+        var sut = new User(1, "user@mycorp.com", UserType.Employee, true);
+
+        var newEmail = "new@gmail.com";
+
+        //Act
+        sut.ChangeEmail(newEmail, company);
+
+        //Assert
+        company.NumberOfEmployees.Should().Be(0);
+        sut.Email.Should().Be(newEmail);
+        sut.Type.Should().Be(UserType.Customer);
+        sut.EmailChangedEvents.Should().ContainEquivalentOf(new EmailChangedEvent(1, newEmail));
     }
 }

@@ -9,7 +9,7 @@ public class UserServiceTest
     {
         //Arrange
         var company = new Company("mycorp.com", 1);
-        var sut = new User(1, "user@gmail.com", UserType.Customer);
+        var sut = new User(1, "user@gmail.com", UserType.Customer, true);
 
         var newEmail = "new@mycorp.com";
 
