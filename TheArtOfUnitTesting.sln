@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Version_1", "TheArtOfUnitTesting\Version_1.csproj", "{770A6376-7B15-4561-A1DB-E89DA47A85EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Version_1", "Version_1\Version_1.csproj", "{770A6376-7B15-4561-A1DB-E89DA47A85EC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Version_2", "Version_2\Version_2.csproj", "{779AA701-F457-472D-BF9D-5D4B6398D690}"
 EndProject
