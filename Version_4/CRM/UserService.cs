@@ -20,10 +20,11 @@ public class UserService
     public void ChangeEmail(int userId, string newEmail)
     {
         var user = _database.GetUserById(userId);
-        var company = _database.GetCompany();
 
         if (!user.IsEmailConfirmed)
             throw new PreconditionException("Can't change a confirmed email");
+
+        var company = _database.GetCompany();
 
         user.ChangeEmail(newEmail, company);
 
